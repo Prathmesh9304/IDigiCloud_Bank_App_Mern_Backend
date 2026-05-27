@@ -43,6 +43,7 @@ const CasaAccountDetails = sequelize.define('CasaAccountDetails', {
   document_type: { type: DataTypes.STRING, allowNull: true },
   document_category: { type: DataTypes.STRING, allowNull: true },
   document_id_number: { type: DataTypes.STRING, allowNull: true },
+  document_verified: { type: DataTypes.BOOLEAN, defaultValue: false },
 
   residential_address: {
     type: DataTypes.JSONB,

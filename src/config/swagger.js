@@ -335,6 +335,16 @@ const options = {
             expires_at: { type: 'string', format: 'date-time', example: '2026-05-27T04:30:00.000Z' },
             created_at: { type: 'string', format: 'date-time', example: '2026-05-27T04:25:00.000Z' }
           }
+        },
+        VerifyDocumentRequest: {
+          type: 'object',
+          properties: {
+            document_type: { type: 'string', example: 'Aadhaar' },
+            document_category: { type: 'string', example: 'Identity' },
+            document_id_number: { type: 'string', example: '1234-5678-9012' },
+            document_file: { type: 'string', description: 'Base64 PDF string (e.g., data:application/pdf;base64,...)' }
+          },
+          required: ['document_type', 'document_category', 'document_id_number', 'document_file'],
         }
       },
     },
@@ -421,6 +431,33 @@ const options = {
             },
             400: {
               description: 'Invalid fields, insufficient funds, or missing parameters',
+            },
+          },
+        },
+      },
+      '/api/verifyDocument': {
+        post: {
+          summary: 'Verify a customer document',
+          description: 'Uploads a document to Cloudinary and forwards details to a Python service for verification.',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/VerifyDocumentRequest',
+                },
+              },
+            },
+          },
+          responses: {
+            200: {
+              description: 'Document verification completed successfully',
+            },
+            400: {
+              description: 'Missing required fields',
+            },
+            500: {
+              description: 'Failed to verify or Internal server error',
             },
           },
         },

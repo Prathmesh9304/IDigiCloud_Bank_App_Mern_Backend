@@ -5,6 +5,7 @@ import TdAccountDetails from './TdAccountDetails.js';
 import RdAccountDetails from './RdAccountDetails.js';
 import Transactions from './Transactions.js';
 import Otp from './Otp.js';
+import TempVerificationRecord from './TempVerificationRecord.js';
 import sequelize from '../config/database.js';
 
 // Transactions explicitly have customer_id (foreign key from customerDetails)
@@ -19,5 +20,6 @@ export {
   TdAccountDetails,
   RdAccountDetails,
   Transactions,
-  Otp
+  Otp,
+  TempVerificationRecord
 };

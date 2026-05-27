@@ -6,6 +6,7 @@ import { sequelize } from './models/index.js';
 import authRoutes from './routes/auth.js';
 import accountRoutes from './routes/account.js';
 import transactionRoutes from './routes/transaction.js';
+import documentRoutes from './routes/document.js';
 import { swaggerUi, swaggerSpec } from './config/swagger.js';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', authRoutes);
 app.use('/api', accountRoutes);
 app.use('/api', transactionRoutes);
+app.use('/api', documentRoutes);
 
 // Health check route
 app.get('/health', (req, res) => {
