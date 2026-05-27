@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+jspm_packages/
+.npm/
+
+# Environment Variables and Secrets (CRITICAL)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Build and Output Directories
+dist/
+build/
+out/
+
+# Local PostgreSQL Data & Backups (If running Postgres locally)
+pgdata/
+*.sql
+*.dump
+*.bak
+
+# Uploads and User Media
+uploads/*
+!uploads/.gitkeep
+public/uploads/*
+
+# Testing and Coverage
+coverage/
+.nyc_output/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sw?
+
+# Operating System Files
+.DS_Store
+Thumbs.db
