@@ -339,12 +339,13 @@ const options = {
         VerifyDocumentRequest: {
           type: 'object',
           properties: {
-            document_type: { type: 'string', example: 'Aadhaar' },
-            document_category: { type: 'string', example: 'Identity' },
-            document_id_number: { type: 'string', example: '1234-5678-9012' },
+            document_type: { type: 'string', example: 'Aadhaar Card' },
+            document_category: { type: 'string', example: 'ID Proof' },
+            document_id_number: { type: 'string', example: '234' },
+            name: { type: 'string', example: 'Prathmesh Prabhakar Bhoir' },
             document_file: { type: 'string', description: 'Base64 PDF string (e.g., data:application/pdf;base64,...)' }
           },
-          required: ['document_type', 'document_category', 'document_id_number', 'document_file'],
+          required: ['document_type', 'document_category', 'document_id_number', 'name', 'document_file'],
         }
       },
     },
@@ -458,6 +459,31 @@ const options = {
             },
             500: {
               description: 'Failed to verify or Internal server error',
+            },
+          },
+        },
+      },
+      '/api/generateDocument': {
+        post: {
+          summary: 'Generate passbook, chequebook, and debit card PDFs',
+          description: 'Forwards customer data to the Python service to generate PDF documents.',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  description: 'Any valid customer/account object payload'
+                },
+              },
+            },
+          },
+          responses: {
+            200: {
+              description: 'Documents generated successfully',
+            },
+            500: {
+              description: 'Failed to generate documents',
             },
           },
         },

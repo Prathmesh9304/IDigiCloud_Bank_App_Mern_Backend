@@ -5,9 +5,9 @@ import { uploadVerificationDocument, deleteVerificationDocument } from '../utils
 const router = express.Router();
 
 router.post('/verifyDocument', async (req, res) => {
-  const { document_type, document_category, document_id_number, document_file } = req.body;
+  const { document_type, document_category, document_id_number, document_file, name } = req.body;
 
-  if (!document_type || !document_category || !document_id_number || !document_file) {
+  if (!document_type || !document_category || !document_id_number || !document_file || !name) {
     return res.status(400).json({ success: false, message: 'All fields are required.' });
   }
 
@@ -35,6 +35,7 @@ router.post('/verifyDocument', async (req, res) => {
       document_type,
       document_category,
       document_id_number,
+      name,
       document_file: cloudinaryUpload.secure_url // Send URL instead of base64
     };
 
@@ -102,6 +103,38 @@ router.post('/verifyDocument', async (req, res) => {
     }
 
     return res.status(500).json({ success: false, message: 'An internal error occurred.' });
+  }
+});
+
+router.post('/generateDocument', async (req, res) => {
+  try {
+    const payload = req.body;
+    const pythonServiceBaseUrl = process.env.PYTHON_SERVICE_URL;
+    if (!pythonServiceBaseUrl) {
+      throw new Error('PYTHON_SERVICE_URL is not defined in environment variables.');
+    }
+    const pythonServiceUrl = `${pythonServiceBaseUrl}/generateDocument`;
+
+    const response = await fetch(pythonServiceUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Python service returned status ${response.status}`);
+    }
+
+    const pythonResponse = await response.json();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Documents generated successfully',
+      data: pythonResponse
+    });
+  } catch (error) {
+    console.error('Generate Document Route Error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to generate documents' });
   }
 });
 
